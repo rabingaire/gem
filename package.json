@@ -11,7 +11,11 @@
   },
   "author": "Tanishq Kanchalra",
   "license": "ISC",
+  "browser": {
+    "fs": false
+  },
   "dependencies": {
+    "deta": "^1.0.1",
     "prosemirror-commands": "^1.1.12",
     "prosemirror-history": "^1.2.0",
     "prosemirror-inputrules": "^1.1.3",
