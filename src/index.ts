@@ -14,30 +14,30 @@ export const main = document.querySelector("main")!;
 
 const storage = new Storage();
 
-const appState: { editor: EditorState<typeof schema>; buffer: number } = {
-  editor: EditorState.create<typeof schema>({
-    doc: getDoc(),
-    schema,
-    plugins: [
-      history(),
-      keymap<typeof schema>({
-        "Mod-z": undo,
-        "Mod-y": redo,
-        ...ctrlZeroToNineKeymap(),
-        ...markdownKeyBindings,
-      }),
-      keymap<typeof schema>(baseKeymap),
-      markdownInputRules,
-      CursorPlugin,
-    ],
-  }),
-  buffer: 0,
-};
+export const appState: { editor: EditorState<typeof schema>; buffer: number } =
+  {
+    editor: EditorState.create<typeof schema>({
+      doc: getDoc(),
+      schema,
+      plugins: [
+        history(),
+        keymap<typeof schema>({
+          "Mod-z": undo,
+          "Mod-y": redo,
+          ...ctrlZeroToNineKeymap(),
+          ...markdownKeyBindings,
+        }),
+        keymap<typeof schema>(baseKeymap),
+        markdownInputRules,
+        CursorPlugin,
+      ],
+    }),
+    buffer: 0,
+  };
 
 const view = new EditorView<typeof schema>(main, {
   state: appState.editor,
   dispatchTransaction(transaction) {
-    transaction.replaceSelection;
     update({ type: "EDITOR_TRANSACTION", payload: transaction });
   },
 });

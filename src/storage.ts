@@ -1,5 +1,5 @@
 import { Deta } from "deta";
-import { update } from "./index";
+import { update, appState } from "./index";
 
 export class Storage {
   constructor() {
@@ -18,11 +18,15 @@ export class Storage {
       }
 
       setInterval(() => {
-        const values = this.getLocalStorageValues();
-        if (values.length > 0) {
-          db.putMany(values);
+        const key = `gem-${appState.buffer}`;
+        const value = localStorage.getItem(key);
+        if (value) {
+          const bufferValue = JSON.stringify(appState.editor.doc.toJSON());
+          if (bufferValue !== value) {
+            db.put({ key, value: bufferValue });
+          }
         }
-      }, 3000);
+      }, 100);
     }
   }
 
@@ -38,15 +42,6 @@ export class Storage {
     });
   }
 
-  private getLocalStorageValues(): { [key: string]: any }[] {
-    return this.getLocalStorageKeys().map((key) => {
-      return {
-        key,
-        value: localStorage.getItem(key),
-      };
-    });
-  }
-
   public get(key: string): { [key: string]: any } | null {
     const value = localStorage.getItem(`gem-${key}`);
     if (value) {
@@ -57,7 +52,9 @@ export class Storage {
   }
 
   public set(key: string, newData: any): void {
-    const newValue = JSON.stringify(newData);
-    localStorage.setItem(`gem-${key}`, newValue);
+    setTimeout(() => {
+      const newValue = JSON.stringify(newData);
+      localStorage.setItem(`gem-${key}`, newValue);
+    }, 100);
   }
 }
