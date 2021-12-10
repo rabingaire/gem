@@ -1,14 +1,5 @@
-// A file for initial content loading into the document. Checks if we're on about page or not, and returns the appropriate content
+// A file for initial content loading into the document.
 
-const welcomes = [
-  "What's on your mind?",
-  "Hey, welcome to Gem :)",
-  "Hello, hello!",
-  "Why, welcome.",
-  "A long, long time ago...",
-  "Go ahead, try me >:)",
-  "Just type it out.",
-];
 const about = {
   type: "doc",
   content: [
@@ -79,20 +70,5 @@ const about = {
     { type: "paragraph", attrs: { type: "base" } },
   ],
 };
-export const initalContent =
-  window.location.pathname === "/about"
-    ? about
-    : {
-        type: "doc",
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: welcomes[Math.floor(Math.random() * welcomes.length)],
-              },
-            ],
-          },
-        ],
-      };
+
+export const initalContent = about;

@@ -4,24 +4,26 @@ import { update } from "./index";
 export class Storage {
   constructor() {
     const gem = this.getCookieValue("gem");
-    const db = Deta(gem).Base("gem");
+    if (gem.length > 0) {
+      const db = Deta(gem).Base("gem");
 
-    // hydrate local storage
-    if (this.getLocalStorageKeys().length == 0) {
-      db.fetch().then(({ items }) => {
-        items.forEach((item: { [key: string]: any }) => {
-          localStorage.setItem(item.key, item.value);
+      // hydrate local storage
+      if (this.getLocalStorageKeys().length == 0) {
+        db.fetch().then(({ items }) => {
+          items.forEach((item: { [key: string]: any }) => {
+            localStorage.setItem(item.key, item.value);
+          });
+          update({ type: "LOAD_BUFFER", payload: 0 });
         });
-        update({ type: "LOAD_BUFFER", payload: 0 });
-      });
-    }
-
-    setInterval(() => {
-      const values = this.getLocalStorageValues();
-      if (values.length > 0) {
-        db.putMany(values);
       }
-    }, 3000);
+
+      setInterval(() => {
+        const values = this.getLocalStorageValues();
+        if (values.length > 0) {
+          db.putMany(values);
+        }
+      }, 3000);
+    }
   }
 
   private getCookieValue(key: string): string {
