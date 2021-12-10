@@ -12,7 +12,7 @@ import { Storage } from "./storage";
 
 export const main = document.querySelector("main")!;
 
-const storage = new Storage(""); // pass base api key here
+const storage = new Storage();
 
 const appState: { editor: EditorState<typeof schema>; buffer: number } = {
   editor: EditorState.create<typeof schema>({
