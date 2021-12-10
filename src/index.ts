@@ -7,7 +7,7 @@ import { keymap } from "prosemirror-keymap";
 import { baseKeymap, Keymap } from "prosemirror-commands";
 import { markdownInputRules, markdownKeyBindings } from "./markdown";
 import { CursorPlugin } from "./cursor";
-import { initalContent } from "./initial";
+import { initalContent, emptyContent } from "./initial";
 import { Storage } from "./storage";
 
 export const main = document.querySelector("main")!;
@@ -58,9 +58,7 @@ export function update(event: { type: string; payload: any }) {
         getDoc(appState.buffer)
       )
     );
-    document.querySelector(
-      ".buffer"
-    )!.textContent = `Buffer ${appState.buffer}`;
+    document.querySelector(".buffer")!.textContent = appState.buffer.toString();
   }
 
   view.updateState(appState.editor);
@@ -68,6 +66,11 @@ export function update(event: { type: string; payload: any }) {
 
 function getDoc(buffer = 0): Node<typeof schema> {
   const value = storage.get(buffer.toString());
+
+  if (!value && buffer == 0) {
+    return Node.fromJSON(schema, emptyContent);
+  }
+
   return Node.fromJSON(schema, value ? value : initalContent);
 }
 

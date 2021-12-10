@@ -71,4 +71,10 @@ const about = {
   ],
 };
 
+const empty = {
+  type: "doc",
+  content: [{ type: "paragraph", attrs: { type: "base" } }],
+};
+
 export const initalContent = about;
+export const emptyContent = empty;
