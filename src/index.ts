@@ -58,7 +58,7 @@ export function update(event: { type: string; payload: any }) {
         getDoc(appState.buffer)
       )
     );
-    document.querySelector(".buffer")!.textContent = appState.buffer.toString();
+    document.querySelector(".buffer")!.textContent = `@${appState.buffer}`;
   }
 
   view.updateState(appState.editor);
